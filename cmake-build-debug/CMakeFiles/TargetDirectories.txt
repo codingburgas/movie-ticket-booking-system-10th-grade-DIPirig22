@@ -1,2 +1,0 @@
-C:/Users/DIPirig22/VIsualStudioProjects/movie-ticket-booking-system-10th-grade-DIPirig22/cmake-build-debug/CMakeFiles/edit_cache.dir
-C:/Users/DIPirig22/VIsualStudioProjects/movie-ticket-booking-system-10th-grade-DIPirig22/cmake-build-debug/CMakeFiles/rebuild_cache.dir
