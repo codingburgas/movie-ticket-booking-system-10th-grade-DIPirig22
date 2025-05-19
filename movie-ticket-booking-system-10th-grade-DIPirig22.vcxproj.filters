@@ -4,12 +4,6 @@
     <ClCompile Include="C:\Users\DIPirig22\source\repos\movie-ticket-booking-system-10th-grade-DIPirig22\scr\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="C:\Users\DIPirig22\source\repos\movie-ticket-booking-system-10th-grade-DIPirig22\scr\utility.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="C:\Users\DIPirig22\source\repos\movie-ticket-booking-system-10th-grade-DIPirig22\loginPage\menu.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="C:\Users\DIPirig22\source\repos\movie-ticket-booking-system-10th-grade-DIPirig22\func\menu.h">
