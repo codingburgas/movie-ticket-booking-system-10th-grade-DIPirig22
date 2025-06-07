@@ -7,7 +7,7 @@ int main() {
     string username, password;
 
     while (true) {
-        cout << "\nChoose an option:\n1. Register\n2. Log in\n3. Exit\n";
+        cout << "Choose an option:\n1. Register\n2. Log in\n3. Exit\n";
         cin >> choice;
 
         if (choice == 3) {
