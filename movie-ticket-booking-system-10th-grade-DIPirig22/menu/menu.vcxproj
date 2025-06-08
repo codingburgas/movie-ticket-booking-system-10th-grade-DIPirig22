@@ -123,7 +123,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="menu.cpp" />
+    <ClCompile Include="seat.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\auth\auth.vcxproj">
@@ -135,6 +135,9 @@
     <ProjectReference Include="..\movie-ticket-booking-system-10th-grade-DIPirig22\movie-ticket-booking-system-10th-grade-DIPirig22.vcxproj">
       <Project>{d0b26bf7-d197-4e2e-bd45-4cb0b45569d5}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="seat.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,6 @@
 ﻿#include <iostream>
 #include "auth/auth.h"
-#include "menu/menu.cpp"
+#include "menu/seat.cpp"
 
 int main() {
     int choice;
@@ -31,8 +31,23 @@ int main() {
         else if (choice == 2) {
             if (Auth::loginUser(username, password)) {
                 cout << "Login successful!" << endl;
-                menu();
-            }
+                    SeatManager seatManager(50);
+
+                    while (true) {
+                        seatManager.displaySeats();
+
+                        int seatNumber;
+                        cout << "Enter seat number to book (0-49) or -1 to exit: ";
+                        cin >> seatNumber;
+
+                        if (seatNumber == -1) {
+                            cout << "Exiting booking system.\n";
+                            break;
+                        }
+
+                        seatManager.bookSeat(seatNumber);
+                    }
+                }
             else {
                 cout << "Invalid username or password." << endl;
             }
