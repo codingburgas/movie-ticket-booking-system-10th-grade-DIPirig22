@@ -5,6 +5,7 @@
 int main() {
     int choice;
     string username, password;
+    int locationNum;
 
     while (true) {
         cout << "Choose an option:\n1. Register\n2. Log in\n3. Exit\n";
@@ -48,14 +49,10 @@ int main() {
                         seatManager.bookSeat(seatNumber);
                     }
                 }
-            else {
-                cout << "Invalid username or password." << endl;
-            }
         }
         else {
             cout << "Invalid choice. Please try again." << endl;
         }
     }
-
     return 0;
 }

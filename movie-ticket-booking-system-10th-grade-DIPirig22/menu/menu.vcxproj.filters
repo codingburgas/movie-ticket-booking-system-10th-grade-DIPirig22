@@ -18,9 +18,15 @@
     <ClCompile Include="seat.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="cinema.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="seat.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="cinema.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
