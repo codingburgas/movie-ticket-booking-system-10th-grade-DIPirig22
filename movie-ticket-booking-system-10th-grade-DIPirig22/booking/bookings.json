@@ -1,0 +1,12 @@
+{
+  "Deniska": [
+    {
+      "city": "Burgas",
+      "cinema": "Galleria Burgas",
+      "movie": "Avatar",
+      "time": "15:00",
+      "seats": [ 10, 11, 12 ]
+    }
+  ]
+}
+

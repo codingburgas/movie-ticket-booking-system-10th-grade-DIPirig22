@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.14.36109.1 d17.14
+VisualStudioVersion = 17.14.36109.1
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "main", "movie-ticket-booking-system-10th-grade-DIPirig22\movie-ticket-booking-system-10th-grade-DIPirig22.vcxproj", "{D0B26BF7-D197-4E2E-BD45-4CB0B45569D5}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "json", "json\json.vcxproj", "{71CF339D-B36E-4BBF-8A91-91B499492EC6}"
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "menu", "menu\menu.vcxproj", "{FACD582D-928A-483E-AD1F-588933D8DF99}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "booking", "booking\booking.vcxproj", "{9048602E-1B98-4083-A898-FCB2DA060A52}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,14 @@ Global
 		{FACD582D-928A-483E-AD1F-588933D8DF99}.Release|x64.Build.0 = Release|x64
 		{FACD582D-928A-483E-AD1F-588933D8DF99}.Release|x86.ActiveCfg = Release|Win32
 		{FACD582D-928A-483E-AD1F-588933D8DF99}.Release|x86.Build.0 = Release|Win32
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Debug|x64.ActiveCfg = Debug|x64
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Debug|x64.Build.0 = Debug|x64
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Debug|x86.ActiveCfg = Debug|Win32
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Debug|x86.Build.0 = Debug|Win32
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Release|x64.ActiveCfg = Release|x64
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Release|x64.Build.0 = Release|x64
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Release|x86.ActiveCfg = Release|Win32
+		{9048602E-1B98-4083-A898-FCB2DA060A52}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

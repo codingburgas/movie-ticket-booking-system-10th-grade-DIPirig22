@@ -7,7 +7,6 @@
 int main() {
     int choice;
     string username, password;
-    int locationNum;
 
     while (true) {
         cout << "Choose an option:\n1. Register\n2. Log in\n3. Exit\n";
@@ -34,7 +33,29 @@ int main() {
         else if (choice == 2) {
             if (Auth::loginUser(username, password)) {
                 cout << "Login successful!" << endl;
-                showBookingMenu(username);
+
+                while (true) {
+                    cout << "\nWhat would you like to do?\n";
+                    cout << "1. Book a ticket\n";
+                    cout << "2. View my bookings\n";
+                    cout << "3. Logout\n";
+                    int action;
+                    cin >> action;
+
+                    if (action == 1) {
+                        showBookingMenu(username);
+                    }
+                    else if (action == 2) {
+                        viewUserBookings(username); 
+                    }
+                    else if (action == 3) {
+                        cout << "Logged out.\n";
+                        break;
+                    }
+                    else {
+                        cout << "Invalid choice.\n";
+                    }
+                }
             }
                     
 

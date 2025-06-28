@@ -1,9 +1,12 @@
-#include "menu.h"
+﻿#include "menu.h"
 #include "../menu/seat.h"
 #include <iostream>
 #include <map>
 #include <vector>
 #include <string>
+#include "../json/json.hpp"
+#include <fstream>
+using json = nlohmann::json;
 
 using namespace std;
 
@@ -102,5 +105,40 @@ void showBookingMenu(const string& username) {
         seatManager.bookSeat(seatNumber);
     }
 
-    cout << "\nBooking complete! Enjoy your movie, " << username << " ??\n";
+    cout << "\nBooking complete! " << username << "\n";
+
+}
+
+
+
+void viewUserBookings(const string& username) {
+    ifstream file("bookings.json");
+    if (!file) {
+        cout << "No booking file found.\n";
+        return;
+    }
+
+    json bookings;
+    file >> bookings;
+    file.close();
+
+    if (!bookings.contains(username)) {
+        cout << "You have no bookings yet.\n";
+        return;
+    }
+
+    const auto& userBookings = bookings[username];
+
+    cout << "\n📖 Your Bookings:\n";
+    for (const auto& entry : userBookings) {
+        cout << "- City: " << entry["city"] << "\n";
+        cout << "  Cinema: " << entry["cinema"] << "\n";
+        cout << "  Movie: " << entry["movie"] << "\n";
+        cout << "  Showtime: " << entry["time"] << "\n";
+        cout << "  Seats: ";
+        for (const auto& seat : entry["seats"]) {
+            cout << seat << " ";
+        }
+        cout << "\n-----------------------------\n";
+    }
 }
