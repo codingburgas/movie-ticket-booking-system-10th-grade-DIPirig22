@@ -133,6 +133,9 @@
     <ProjectReference Include="..\json\json.vcxproj">
       <Project>{71cf339d-b36e-4bbf-8a91-91b499492ec6}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\menu\menu.vcxproj">
+      <Project>{facd582d-928a-483e-ad1f-588933d8df99}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

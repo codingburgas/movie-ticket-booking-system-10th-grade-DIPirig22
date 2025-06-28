@@ -2,13 +2,24 @@
 
 SeatManager::SeatManager(int totalSeats) : seats(totalSeats, false) {}
 
+
 void SeatManager::displaySeats() {
-    cout << "Available Seats:\n";
+    cout << "\nHall Seating Layout:\n";
     for (size_t i = 0; i < seats.size(); ++i) {
+        if (i % 10 == 0) {
+            int row = i / 10 + 1;
+            string label;
+
+            if (row == 5)
+                label = "25 lv (VIP)";
+            else
+                label = "15 lv";
+
+            cout << "\nRow " << row << " [" << label << "]: ";
+        }
         cout << "[" << i << (seats[i] ? "X" : "_") << "] ";
-        if ((i + 1) % 10 == 0) cout << endl;
     }
-    cout << endl;
+    cout << "\n";
 }
 
 bool SeatManager::bookSeat(int seatNumber) {
