@@ -130,6 +130,9 @@
     <ProjectReference Include="..\auth\auth.vcxproj">
       <Project>{1c4a1e01-c42b-4230-9112-c1a1ad70840d}</Project>
     </ProjectReference>
+    <ProjectReference Include="..\booking\booking.vcxproj">
+      <Project>{9048602e-1b98-4083-a898-fcb2da060a52}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\json\json.vcxproj">
       <Project>{71cf339d-b36e-4bbf-8a91-91b499492ec6}</Project>
     </ProjectReference>

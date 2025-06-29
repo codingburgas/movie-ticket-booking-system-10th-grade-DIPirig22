@@ -126,9 +126,7 @@
     <None Include="bookings.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\menu\menu.vcxproj">
-      <Project>{facd582d-928a-483e-ad1f-588933d8df99}</Project>
-    </ProjectReference>
+    <ClCompile Include="booking.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

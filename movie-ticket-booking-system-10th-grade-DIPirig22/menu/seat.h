@@ -1,16 +1,14 @@
-#include <iostream>
 #include <vector>
-
-using namespace std;
 
 class SeatManager {
 private:
-    vector<bool> seats;
-
+    std::vector<bool> seats;
 public:
-    SeatManager(int totalSeats); 
-    void displaySeats(); 
-    bool bookSeat(int seatNumber); 
+    SeatManager(int totalSeats);
+    void displaySeats();
+    bool bookSeat(int seatNumber);
+    void occupySeat(int seatNumber);
 };
+
 
 

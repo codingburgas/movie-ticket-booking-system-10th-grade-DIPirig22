@@ -7,7 +7,6 @@
 #include "../json/json.hpp"
 #include <fstream>
 using json = nlohmann::json;
-
 using namespace std;
 
 void showBookingMenu(const string& username) {
@@ -96,17 +95,84 @@ void showBookingMenu(const string& username) {
     string selectedTime = times[timeChoice - 1];
 
     SeatManager seatManager(50);
+    vector<int> bookedSeats;
+
+    std::ifstream inFile("bookings.json");
+    if (inFile.is_open()) {
+        try {
+            json allBookings;
+            inFile >> allBookings;
+            inFile.close();
+
+            if (allBookings.contains(username)) {
+                for (const auto& booking : allBookings[username]) {
+                    if (
+                        booking["city"] == selectedCity &&
+                        booking["cinema"] == selectedCinema &&
+                        booking["movie"] == selectedMovie &&
+                        booking["time"] == selectedTime
+                        ) {
+                        for (const auto& seat : booking["seats"]) {
+                            seatManager.occupySeat(seat);
+                        }
+                    }
+                }
+            }
+        }
+        catch (...) {
+            std::cerr << "⚠️ Failed to load bookings.json\n";
+        }
+    }
+
     while (true) {
         seatManager.displaySeats();
         int seatNumber;
-        cout << "Enter seat number to book (0-49) or -1 to exit: ";
+        cout << "Enter seat number to book (0-49) or -1 to finish: ";
         cin >> seatNumber;
         if (seatNumber == -1) break;
-        seatManager.bookSeat(seatNumber);
+
+        if (seatManager.bookSeat(seatNumber)) {
+            bookedSeats.push_back(seatNumber);
+        }
     }
 
-    cout << "\nBooking complete! " << username << "\n";
+    cout << "\nBooking complete for user: " << username << "\n";
 
+    if (!bookedSeats.empty()) {
+        json allBookings;
+
+        std::ifstream inFile("bookings.json");
+        if (inFile.is_open()) {
+            try {
+                inFile >> allBookings;
+            }
+            catch (...) {
+                std::cerr << "⚠️ Error reading bookings.json\n";
+                allBookings = json::object();
+            }
+            inFile.close();
+        }
+
+        json newBooking = {
+            {"city", selectedCity},
+            {"cinema", selectedCinema},
+            {"movie", selectedMovie},
+            {"time", selectedTime},
+            {"seats", bookedSeats}
+        };
+
+        allBookings[username].push_back(newBooking);
+
+        std::ofstream outFile("bookings.json");
+        if (outFile.is_open()) {
+            outFile << allBookings.dump(4);
+            outFile.close();
+            std::cout << "\n✅ Booking successfully saved to bookings.json\n";
+        }
+        else {
+            std::cerr << "❌ Failed to write to bookings.json\n";
+        }
+    }
 }
 
 

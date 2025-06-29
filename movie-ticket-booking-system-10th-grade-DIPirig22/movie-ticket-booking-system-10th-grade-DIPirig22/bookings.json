@@ -1,0 +1,22 @@
+{
+    "Denis": [
+        {
+            "cinema": "Galleria Burgas",
+            "city": "Burgas",
+            "movie": "Avatar",
+            "seats": [
+                3
+            ],
+            "time": "12:00"
+        },
+        {
+            "cinema": "Euro Cinema",
+            "city": "Ruse",
+            "movie": "Dune",
+            "seats": [
+                1
+            ],
+            "time": "14:30"
+        }
+    ]
+}
