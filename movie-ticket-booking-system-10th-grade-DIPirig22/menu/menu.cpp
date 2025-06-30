@@ -120,7 +120,7 @@ void showBookingMenu(const string& username) {
             }
         }
         catch (...) {
-            std::cerr << "⚠️ Failed to load bookings.json\n";
+            std::cout << "Failed to load bookings.json\n";
         }
     }
 
@@ -147,7 +147,7 @@ void showBookingMenu(const string& username) {
                 inFile >> allBookings;
             }
             catch (...) {
-                std::cerr << "⚠️ Error reading bookings.json\n";
+                std::cout << "⚠️ Error reading bookings.json\n";
                 allBookings = json::object();
             }
             inFile.close();
@@ -167,10 +167,10 @@ void showBookingMenu(const string& username) {
         if (outFile.is_open()) {
             outFile << allBookings.dump(4);
             outFile.close();
-            std::cout << "\n✅ Booking successfully saved to bookings.json\n";
+            std::cout << "\n Booking successfully saved\n";
         }
         else {
-            std::cerr << "❌ Failed to write to bookings.json\n";
+            std::cout << "Failed to write to bookings.json\n";
         }
     }
 }
@@ -195,7 +195,7 @@ void viewUserBookings(const string& username) {
 
     const auto& userBookings = bookings[username];
 
-    cout << "\n📖 Your Bookings:\n";
+    cout << "\n Your Bookings:\n";
     for (const auto& entry : userBookings) {
         cout << "- City: " << entry["city"] << "\n";
         cout << "  Cinema: " << entry["cinema"] << "\n";
@@ -207,4 +207,57 @@ void viewUserBookings(const string& username) {
         }
         cout << "\n-----------------------------\n";
     }
+}
+
+
+
+void cancelUserBooking(const string& username) {
+    std::ifstream inFile("bookings.json");
+    if (!inFile.is_open()) {
+        std::cout << "No booking file found.\n";
+        return;
+    }
+
+    json allBookings;
+    inFile >> allBookings;
+    inFile.close();
+
+    if (!allBookings.contains(username) || allBookings[username].empty()) {
+        std::cout << "You have no bookings to cancel.\n";
+        return;
+    }
+
+    auto& bookings = allBookings[username];
+
+    std::cout << "\nYour Bookings:\n";
+    for (size_t i = 0; i < bookings.size(); ++i) {
+        const auto& entry = bookings[i];
+        std::cout << i + 1 << ". " << entry["city"] << ", "
+            << entry["cinema"] << ", " << entry["movie"]
+            << " at " << entry["time"] << " — Seats: ";
+        for (const auto& s : entry["seats"]) {
+            std::cout << s << " ";
+        }
+        std::cout << "\n";
+    }
+
+    int cancelIndex;
+    std::cout << "\nEnter the booking number to cancel (0 to exit): ";
+    std::cin >> cancelIndex;
+    if (cancelIndex < 1 || cancelIndex >(int)bookings.size()) {
+        std::cout << "Cancel aborted.\n";
+        return;
+    }
+
+    bookings.erase(bookings.begin() + cancelIndex - 1);
+
+    if (bookings.empty()) {
+        allBookings.erase(username);
+    }
+
+    std::ofstream outFile("bookings.json");
+    outFile << allBookings.dump(4);
+    outFile.close();
+
+    std::cout << "\nBooking cancelled successfully.\n";
 }

@@ -17,6 +17,15 @@
                 1
             ],
             "time": "14:30"
+        },
+        {
+            "cinema": "Kino Lucky",
+            "city": "Plovdiv",
+            "movie": "The Batman",
+            "seats": [
+                3
+            ],
+            "time": "20:30"
         }
     ]
 }

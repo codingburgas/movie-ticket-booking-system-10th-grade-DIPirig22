@@ -10,6 +10,7 @@ int main() {
     string username, password;
 
     while (true) {
+        cout << "Welcome to the Cinema Booking System!" << endl;
         cout << "Choose an option:\n1. Register\n2. Log in\n3. Exit\n";
         cin >> choice;
 
@@ -39,17 +40,20 @@ int main() {
                     cout << "\nWhat would you like to do?\n";
                     cout << "1. Book a ticket\n";
                     cout << "2. View my bookings\n";
-                    cout << "3. Logout\n";
-                    int action;
-                    cin >> action;
+                    cout << "3. Cancel a booking\n";
+                    cout << "4. Logout\n";
+                    cin >> choice;
 
-                    if (action == 1) {
+                    if (choice == 1) {
                         showBookingMenu(username);
                     }
-                    else if (action == 2) {
+                    else if (choice == 2) {
                         viewUserBookings(username); 
                     }
-                    else if (action == 3) {
+                    else if (choice == 3) {
+                        cancelUserBooking(username);
+                    }
+                    else if (choice == 4) {
                         cout << "Logged out.\n";
                         break;
                     }
