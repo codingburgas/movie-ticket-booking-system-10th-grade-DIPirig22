@@ -147,7 +147,7 @@ void showBookingMenu(const string& username) {
                 inFile >> allBookings;
             }
             catch (...) {
-                std::cout << "⚠️ Error reading bookings.json\n";
+                std::cout << "Error reading bookings.json\n";
                 allBookings = json::object();
             }
             inFile.close();
@@ -174,6 +174,7 @@ void showBookingMenu(const string& username) {
         }
     }
 }
+
 
 
 

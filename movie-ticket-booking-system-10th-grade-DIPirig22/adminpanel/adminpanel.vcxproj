@@ -21,10 +21,9 @@
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{d0b26bf7-d197-4e2e-bd45-4cb0b45569d5}</ProjectGuid>
-    <RootNamespace>movieticketbookingsystem10thgradeDIPirig22</RootNamespace>
+    <ProjectGuid>{a06c13e8-b80c-4806-8e69-8b706962ce24}</ProjectGuid>
+    <RootNamespace>adminpanel</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>main</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -41,7 +40,7 @@
     <CharacterSet>Unicode</CharacterSet>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <PlatformToolset>v143</PlatformToolset>
     <CharacterSet>Unicode</CharacterSet>
@@ -124,12 +123,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\main.cpp" />
+    <None Include="movies.json" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\adminpanel\adminpanel.vcxproj">
-      <Project>{a06c13e8-b80c-4806-8e69-8b706962ce24}</Project>
-    </ProjectReference>
+    <ClInclude Include="admin.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="admin.cpp" />
+  </ItemGroup>
+  <ItemGroup>
     <ProjectReference Include="..\auth\auth.vcxproj">
       <Project>{1c4a1e01-c42b-4230-9112-c1a1ad70840d}</Project>
     </ProjectReference>
@@ -138,9 +140,6 @@
     </ProjectReference>
     <ProjectReference Include="..\json\json.vcxproj">
       <Project>{71cf339d-b36e-4bbf-8a91-91b499492ec6}</Project>
-    </ProjectReference>
-    <ProjectReference Include="..\menu\menu.vcxproj">
-      <Project>{facd582d-928a-483e-ad1f-588933d8df99}</Project>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

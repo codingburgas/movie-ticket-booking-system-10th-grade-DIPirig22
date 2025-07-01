@@ -1,31 +1,13 @@
 {
-    "Denis": [
+    "B": [
         {
             "cinema": "Galleria Burgas",
             "city": "Burgas",
             "movie": "Avatar",
             "seats": [
-                3
-            ],
-            "time": "12:00"
-        },
-        {
-            "cinema": "Euro Cinema",
-            "city": "Ruse",
-            "movie": "Dune",
-            "seats": [
                 1
             ],
-            "time": "14:30"
-        },
-        {
-            "cinema": "Kino Lucky",
-            "city": "Plovdiv",
-            "movie": "The Batman",
-            "seats": [
-                3
-            ],
-            "time": "20:30"
+            "time": "12:00"
         }
     ]
 }

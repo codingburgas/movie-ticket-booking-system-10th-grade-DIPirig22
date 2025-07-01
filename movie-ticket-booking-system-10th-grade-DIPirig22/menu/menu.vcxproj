@@ -127,6 +127,9 @@
     <ClCompile Include="seat.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\adminpanel\adminpanel.vcxproj">
+      <Project>{a06c13e8-b80c-4806-8e69-8b706962ce24}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\auth\auth.vcxproj">
       <Project>{1c4a1e01-c42b-4230-9112-c1a1ad70840d}</Project>
     </ProjectReference>
