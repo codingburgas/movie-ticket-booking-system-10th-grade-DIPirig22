@@ -1,11 +1,23 @@
 {
-    "Gallerea Burgas": [],
-    "Galleria Burgas": [
-        {
-            "times": [
-                "12:00"
-            ],
-            "title": "Transformers"
-        }
-    ]
+    "Burgas": {
+        "Galleria Burgas": [
+            {
+                "times": [
+                    "15:00",
+                    "20:00"
+                ],
+                "title": "Transformers"
+            }
+        ]
+    },
+    "Plovdiv": {
+        "Kino Lucky": [
+            {
+                "times": [
+                    "12:00"
+                ],
+                "title": "Batman"
+            }
+        ]
+    }
 }

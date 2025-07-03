@@ -9,169 +9,116 @@
 using json = nlohmann::json;
 using namespace std;
 
-void showBookingMenu(const string& username) {
-    map<string, vector<string>> cityMap = {
-        {"Burgas", {"Galleria Burgas", "Cinema Neptun"}},
-        {"Varna", {"Grand Mall Cinema", "Festival Complex"}},
-        {"Sofia", {"Arena Mladost", "Cinema City"}},
-        {"Plovdiv", {"Eccoplexx", "Kino Lucky"}},
-        {"Ruse", {"Mall Ruse Cinema", "Euro Cinema"}}
-    };
+void showBookingMenu(const std::string& username) {
+    json moviesData;
+    ifstream in("movies.json");
+    if (!in.is_open()) return;
+    try { in >> moviesData; }
+    catch (...) { return; }
+    in.close();
 
-    map<string, vector<string>> movieMap = {
-        {"Galleria Burgas", {"Avatar", "Dune"}},
-        {"Cinema Neptun", {"Oppenheimer", "Inception"}},
-        {"Grand Mall Cinema", {"The Batman", "Barbie"}},
-        {"Festival Complex", {"Interstellar", "Avatar"}},
-        {"Arena Mladost", {"Dune", "Matrix"}},
-        {"Cinema City", {"Barbie", "Oppenheimer"}},
-        {"Eccoplexx", {"Tenet", "Joker"}},
-        {"Kino Lucky", {"Inception", "The Batman"}},
-        {"Mall Ruse Cinema", {"Interstellar", "Avatar"}},
-        {"Euro Cinema", {"Dune", "Oppenheimer"}}
-    };
+    if (moviesData.empty()) return;
 
-    map<string, vector<string>> showtimes = {
-        {"Avatar", {"12:00", "15:00", "18:00"}},
-        {"Dune", {"11:30", "14:30", "19:00"}},
-        {"Oppenheimer", {"13:00", "17:30"}},
-        {"Inception", {"16:00", "21:00"}},
-        {"Barbie", {"10:30", "13:30", "17:00"}},
-        {"Interstellar", {"11:00", "15:30"}},
-        {"Tenet", {"14:15", "19:15"}},
-        {"Joker", {"13:00", "18:45"}},
-        {"Matrix", {"12:45", "18:00"}},
-        {"The Batman", {"16:30", "20:30"}}
-    };
-
-    cout << "\nSelect a city:\n";
-    int cityIndex = 1;
-    vector<string> cities;
-    for (const auto& pair : cityMap) {
-        cout << cityIndex++ << ". " << pair.first << endl;
-        cities.push_back(pair.first);
+    cout << "Please choose a city from the list below:\n";
+    vector<string> cityList;
+    for (auto it = moviesData.begin(); it != moviesData.end(); ++it) {
+        cityList.push_back(it.key());
     }
+
+    for (size_t i = 0; i < cityList.size(); ++i)
+        cout << i + 1 << ". " << cityList[i] << "\n";
 
     int cityChoice;
-    cout << "Enter city number: ";
     cin >> cityChoice;
-    if (cityChoice < 1 || cityChoice >(int)cities.size()) return;
-    string selectedCity = cities[cityChoice - 1];
+    if (cityChoice < 1 || cityChoice > cityList.size()) return;
+    string selectedCity = cityList[cityChoice - 1];
 
-    const auto& cinemas = cityMap[selectedCity];
-    cout << "\nCinemas in " << selectedCity << ":\n";
-    for (size_t i = 0; i < cinemas.size(); ++i) {
-        cout << i + 1 << ". " << cinemas[i] << endl;
-    }
+
+    cout << "Now choose a cinema in " << selectedCity << ":\n";
+    const auto& cinemas = moviesData[selectedCity];
+    vector<string> cinemaList;
+    for (auto it = cinemas.begin(); it != cinemas.end(); ++it)
+        cinemaList.push_back(it.key());
+
+    for (size_t i = 0; i < cinemaList.size(); ++i)
+        cout << i + 1 << ". " << cinemaList[i] << "\n";
 
     int cinemaChoice;
-    cout << "Enter cinema number: ";
     cin >> cinemaChoice;
-    if (cinemaChoice < 1 || cinemaChoice >(int)cinemas.size()) return;
-    string selectedCinema = cinemas[cinemaChoice - 1];
+    if (cinemaChoice < 1 || cinemaChoice > cinemaList.size()) return;
+    string selectedCinema = cinemaList[cinemaChoice - 1];
 
-    const auto& movies = movieMap[selectedCinema];
-    cout << "\nMovies in " << selectedCinema << ":\n";
-    for (size_t i = 0; i < movies.size(); ++i) {
-        cout << i + 1 << ". " << movies[i] << endl;
+    const auto& movieArray = cinemas[selectedCinema];
+    if (!movieArray.is_array() || movieArray.empty()) return;
+
+    cout << "Select a movie playing at " << selectedCinema << ":\n";
+    vector<json> movieList;
+    for (size_t i = 0; i < movieArray.size(); ++i) {
+        const json& movie = movieArray[i];
+        if (movie.contains("title") && movie.contains("times")) {
+            cout << movieList.size() + 1 << ". " << movie["title"] << "\n";
+            movieList.push_back(movie);
+        }
     }
 
     int movieChoice;
-    cout << "Enter movie number: ";
     cin >> movieChoice;
-    if (movieChoice < 1 || movieChoice >(int)movies.size()) return;
-    string selectedMovie = movies[movieChoice - 1];
+    if (movieChoice < 1 || movieChoice > movieList.size()) return;
+    const json& selectedMovie = movieList[movieChoice - 1];
 
-    const auto& times = showtimes[selectedMovie];
-    cout << "\nShowtimes for " << selectedMovie << ":\n";
-    for (size_t i = 0; i < times.size(); ++i) {
-        cout << i + 1 << ". " << times[i] << endl;
-    }
+    const json& times = selectedMovie["times"];
+    cout << "Choose a showtime for \"" << selectedMovie["title"] << "\":\n";
+    for (size_t i = 0; i < times.size(); ++i)
+        cout << i + 1 << ". " << times[i] << "\n";
 
     int timeChoice;
-    cout << "Enter showtime number: ";
     cin >> timeChoice;
-    if (timeChoice < 1 || timeChoice >(int)times.size()) return;
+    if (timeChoice < 1 || timeChoice > times.size()) return;
     string selectedTime = times[timeChoice - 1];
 
     SeatManager seatManager(50);
     vector<int> bookedSeats;
 
-    std::ifstream inFile("bookings.json");
-    if (inFile.is_open()) {
-        try {
-            json allBookings;
-            inFile >> allBookings;
-            inFile.close();
+    json allBookings;
+    ifstream bin("bookings.json");
+    if (bin.is_open()) {
+        try { bin >> allBookings; }
+        catch (...) {}
+        bin.close();
+    }
 
-            if (allBookings.contains(username)) {
-                for (const auto& booking : allBookings[username]) {
-                    if (
-                        booking["city"] == selectedCity &&
-                        booking["cinema"] == selectedCinema &&
-                        booking["movie"] == selectedMovie &&
-                        booking["time"] == selectedTime
-                        ) {
-                        for (const auto& seat : booking["seats"]) {
-                            seatManager.occupySeat(seat);
-                        }
-                    }
-                }
+    if (allBookings.contains(username)) {
+        for (const auto& b : allBookings[username]) {
+            if (b["city"] == selectedCity && b["cinema"] == selectedCinema &&
+                b["movie"] == selectedMovie["title"] && b["time"] == selectedTime) {
+                for (const auto& s : b["seats"]) seatManager.occupySeat(s);
             }
-        }
-        catch (...) {
-            std::cout << "Failed to load bookings.json\n";
         }
     }
 
     while (true) {
         seatManager.displaySeats();
-        int seatNumber;
-        cout << "Enter seat number to book (0-49) or -1 to finish: ";
-        cin >> seatNumber;
-        if (seatNumber == -1) break;
-
-        if (seatManager.bookSeat(seatNumber)) {
-            bookedSeats.push_back(seatNumber);
-        }
+        cout << "Enter seat number to book (0-49) or -1 to exit:" << endl;
+        int seatNum;
+        cin >> seatNum;
+        if (seatNum == -1) break;
+        if (seatManager.bookSeat(seatNum))
+            bookedSeats.push_back(seatNum);
     }
 
-    cout << "\nBooking complete for user: " << username << "\n";
-
     if (!bookedSeats.empty()) {
-        json allBookings;
-
-        std::ifstream inFile("bookings.json");
-        if (inFile.is_open()) {
-            try {
-                inFile >> allBookings;
-            }
-            catch (...) {
-                std::cout << "Error reading bookings.json\n";
-                allBookings = json::object();
-            }
-            inFile.close();
-        }
-
-        json newBooking = {
+        json booking = {
             {"city", selectedCity},
             {"cinema", selectedCinema},
-            {"movie", selectedMovie},
+            {"movie", selectedMovie["title"]},
             {"time", selectedTime},
             {"seats", bookedSeats}
         };
-
-        allBookings[username].push_back(newBooking);
-
-        std::ofstream outFile("bookings.json");
-        if (outFile.is_open()) {
-            outFile << allBookings.dump(4);
-            outFile.close();
-            std::cout << "\n Booking successfully saved\n";
-        }
-        else {
-            std::cout << "Failed to write to bookings.json\n";
-        }
+        allBookings[username].push_back(booking);
+        ofstream bout("bookings.json");
+        bout << allBookings.dump(4);
+        bout.close();
+        cout << "Booking confirmed\n";
     }
 }
 

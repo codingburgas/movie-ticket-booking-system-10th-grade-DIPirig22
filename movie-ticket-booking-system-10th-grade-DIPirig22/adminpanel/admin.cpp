@@ -3,7 +3,6 @@
 #include <string>
 #include <vector>
 #include "../json/json.hpp"      
-#include "admin.h"
 
 using namespace std;
 using json = nlohmann::json;
@@ -62,67 +61,149 @@ void displayAll(const json& data) {
 }
 
 void addMovie(json& data) {
-    string cinema, title;
-    cout << "Enter cinema name: ";
-    getline(cin >> ws, cinema);
+    map<string, vector<string>> cityMap = {
+        {"Burgas", {"Galleria Burgas", "Cinema Neptun"}},
+        {"Varna", {"Grand Mall Cinema", "Festival Complex"}},
+        {"Sofia", {"Arena Mladost", "Cinema City"}},
+        {"Plovdiv", {"Eccoplexx", "Kino Lucky"}},
+        {"Ruse", {"Mall Ruse Cinema", "Euro Cinema"}}
+    };
 
+    cout << "\nSelect a city:\n";
+    vector<string> cities;
+    int cIdx = 1;
+    for (const auto& pair : cityMap) {
+        cout << cIdx++ << ". " << pair.first << "\n";
+        cities.push_back(pair.first);
+    }
+    int cityChoice;
+    cout << "City number: ";
+    cin >> cityChoice;
+    if (cityChoice < 1 || cityChoice > cities.size()) return;
+    string selectedCity = cities[cityChoice - 1];
+
+    const auto& cinemas = cityMap[selectedCity];
+    cout << "\nCinemas in " << selectedCity << ":\n";
+    for (size_t i = 0; i < cinemas.size(); ++i)
+        cout << i + 1 << ". " << cinemas[i] << "\n";
+
+    int cinemaChoice;
+    cout << "Cinema number: ";
+    cin >> cinemaChoice;
+    if (cinemaChoice < 1 || cinemaChoice > cinemas.size()) return;
+    string selectedCinema = cinemas[cinemaChoice - 1];
+
+    string title;
     cout << "Enter movie title: ";
     getline(cin >> ws, title);
 
-    int count;
-    cout << "How many showtimes to add? ";
-    cin >> count;
+    int showCount;
+    cout << "Number of showtimes: ";
+    cin >> showCount;
 
     vector<string> times;
-    for (int i = 0; i < count; ++i) {
-        string t;
-        cout << "Enter time " << i + 1 << ": ";
-        cin >> t;
-        times.push_back(t);
+    for (int i = 0; i < showCount; ++i) {
+        string time;
+        cout << "Time " << i + 1 << ": ";
+        cin >> time;
+        times.push_back(time);
     }
 
     json movie;
     movie["title"] = title;
     movie["times"] = times;
 
-    data[cinema].push_back(movie);
-
-    cout << "Movie \"" << title << "\" added with showtimes.\n";
+    data[selectedCity][selectedCinema].push_back(movie);
+    cout << "Movie added to " << selectedCinema << " in " << selectedCity << ".\n";
 }
+
 
 void removeMovie(json& data) {
-    string cinema;
-    cout << "Enter cinema name: ";
-    getline(cin >> ws, cinema);
-
-    if (!data.contains(cinema)) {
-        cout << "Cinema \"" << cinema << "\" not found.\n";
+    if (data.empty()) {
+        cout << "No movies available.\n";
         return;
     }
 
-    auto& movies = data[cinema];
-    if (movies.empty()) {
-        cout << "No movies to remove in \"" << cinema << "\".\n";
+    vector<string> cities;
+    cout << "\nAvailable Cities:\n";
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        cities.push_back(it.key());
+        cout << cities.size() << ". " << it.key() << "\n";
+    }
+
+    int cityChoice;
+    cout << "Select city: ";
+    cin >> cityChoice;
+    if (cityChoice < 1 || cityChoice > cities.size()) return;
+    string selectedCity = cities[cityChoice - 1];
+
+    const auto& cinemas = data[selectedCity];
+    vector<string> cinemaList;
+    cout << "\nCinemas in " << selectedCity << ":\n";
+    for (auto it = cinemas.begin(); it != cinemas.end(); ++it) {
+        cinemaList.push_back(it.key());
+        cout << cinemaList.size() << ". " << it.key() << "\n";
+    }
+
+    int cinemaChoice;
+    cout << "Select cinema: ";
+    cin >> cinemaChoice;
+    if (cinemaChoice < 1 || cinemaChoice > cinemaList.size()) return;
+    string selectedCinema = cinemaList[cinemaChoice - 1];
+
+    auto& movieArray = data[selectedCity][selectedCinema];
+    if (!movieArray.is_array() || movieArray.empty()) {
+        cout << "No movies in selected cinema.\n";
         return;
     }
 
-    cout << "Movies in \"" << cinema << "\":\n";
-    for (size_t i = 0; i < movies.size(); ++i) {
-        cout << i + 1 << ". " << movies[i] << "\n";
+    vector<string> titles;
+    cout << "\nMovies in " << selectedCinema << ":\n";
+    for (size_t i = 0; i < movieArray.size(); ++i) {
+        const json& movie = movieArray[i];
+        if (movie.contains("title")) {
+            titles.push_back(movie["title"]);
+            cout << i + 1 << ". " << movie["title"] << "\n";
+        }
     }
 
-    int index;
-    cout << "Enter movie number to remove: ";
-    cin >> index;
+    int movieChoice;
+    cout << "Select movie to delete: ";
+    cin >> movieChoice;
+    if (movieChoice < 1 || movieChoice > titles.size()) return;
 
-    if (index < 1 || index > static_cast<int>(movies.size())) {
-        cout << "Invalid index.\n";
-        return;
-    }
+    movieArray.erase(movieArray.begin() + (movieChoice - 1));
+    cout << "Movie deleted from " << selectedCinema << ", " << selectedCity << ".\n";
 
-    cout << "Removed \"" << movies[index - 1] << "\" from \"" << cinema << "\".\n";
-    movies.erase(movies.begin() + index - 1);
+    if (movieArray.empty())
+        data[selectedCity].erase(selectedCinema);
+    if (data[selectedCity].empty())
+        data.erase(selectedCity);
 }
+
+void removeCity(json& data) {
+    if (data.empty()) {
+        cout << "No cities to remove.\n";
+        return;
+    }
+
+    vector<string> cities;
+    cout << "Available Cities:\n";
+    for (auto it = data.begin(); it != data.end(); ++it) {
+        cities.push_back(it.key());
+        cout << cities.size() << ". " << it.key() << "\n";
+    }
+
+    int choice;
+    cout << "Select city to remove: ";
+    cin >> choice;
+    if (choice < 1 || choice > cities.size()) return;
+    string selected = cities[choice - 1];
+
+    data.erase(selected);
+    cout << "City \"" << selected << "\" removed from schedule.\n";
+}
+
 
 void runAdminPanel() {
     json data;
@@ -133,7 +214,8 @@ void runAdminPanel() {
         cout << "1. View all cinemas and movies\n";
         cout << "2. Add a movie\n";
         cout << "3. Remove a movie\n";
-        cout << "4. Save and exit\n";
+        cout << "4. Remove city and all its cinemas\n";
+        cout << "5. Save and exit\n";
         cout << "Choose: ";
 
         int choice;
@@ -143,11 +225,18 @@ void runAdminPanel() {
         case 1: displayAll(data); break;
         case 2: addMovie(data); break;
         case 3: removeMovie(data); break;
-        case 4:
+        case 4: removeCity(data); break;
+        case 5:
             saveMovies(data);
             return;
         default:
             cout << "Invalid option.\n";
         }
     }
+
+    if (data.empty()) {
+        cout << "movies.json is empty\n";
+        return;
+    }
+
 }

@@ -8,7 +8,7 @@
 
 int main() {
     while (true) {
-        cout << "\nCinema Ticket Booking System\n";
+        cout << "Cinema Ticket Booking System\n";
         cout << "-----------------------------\n";
         cout << "1. Login as User\n";
         cout << "2. Register as User\n";

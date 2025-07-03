@@ -41,7 +41,6 @@ bool Auth::loginUser(const string& username, const string& password) {
         return true;
     }
     else {
-        cout << "Invalid username or password!" << endl;
         return false;
     }
 }

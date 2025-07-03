@@ -9,5 +9,46 @@
             ],
             "time": "12:00"
         }
+    ],
+    "Denis": [
+        {
+            "cinema": "Kino Lucky",
+            "city": "Plovdiv",
+            "movie": "The Batman",
+            "seats": [
+                1
+            ],
+            "time": "20:30"
+        },
+        {
+            "cinema": "Galleria Burgas",
+            "movie": "Transformers",
+            "seats": [
+                1
+            ],
+            "time": "12:00"
+        }
+    ],
+    "d": [
+        {
+            "cinema": "Galleria Burgas",
+            "city": "Burgas",
+            "movie": "Transformers",
+            "seats": [
+                2
+            ],
+            "time": "15:00"
+        }
+    ],
+    "user": [
+        {
+            "cinema": "Kino Lucky",
+            "city": "Plovdiv",
+            "movie": "Batman",
+            "seats": [
+                1
+            ],
+            "time": "12:00"
+        }
     ]
 }
