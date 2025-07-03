@@ -40,3 +40,10 @@ Features
 |   └── menu.h
 └── README.md
 </pre>
+
+<h2>Technologies Used</h2>
+<ul>
+  <li><strong>C++17</strong></li>
+  <li><strong>Visual Studio 2022</strong></li>
+  <li><strong>Git & GitHub</strong></li>
+</ul>
